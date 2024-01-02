@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./app
+    ports:
+      - "5001:5001"
+    depends_on:
+      - db
+    networks:
+      - my-network
+
+  db:
+    build:
+      context: ./db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+volumes:
+  db_data:
+
+networks:
+  my-network:
